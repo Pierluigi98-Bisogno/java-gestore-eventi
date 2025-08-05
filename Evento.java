@@ -2,11 +2,13 @@ public class Evento {
     // Proprietà
     private String titolo;
     private String data;
+    private int postiTotali;
     
     // Costruttore
-    public Evento(String titolo, String data) {
+    public Evento(String titolo, String data, int postiTotali) {
         this.titolo = titolo;
         this.data = data;
+        this.postiTotali = postiTotali;
     }
     
     // Getter
@@ -29,9 +31,19 @@ public class Evento {
         this.data = data;
     }
     
+    // Getter per posti totali
+    public int getPostiTotali() {
+        return postiTotali;
+    }
+    
+    // Setter per posti totali
+    public void setPostiTotali(int postiTotali) {
+        this.postiTotali = postiTotali;
+    }
+    
     // Metodo toString per visualizzare l'evento
     @Override
     public String toString() {
-        return "Evento: " + titolo + " - Data: " + data;
+        return "Evento: " + titolo + " - Data: " + data + " - Posti totali: " + postiTotali;
     }
 }
