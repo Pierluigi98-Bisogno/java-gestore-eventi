@@ -3,12 +3,14 @@ public class Evento {
     private String titolo;
     private String data;
     private int postiTotali;
+    private int postiPrenotati;
     
     // Costruttore
-    public Evento(String titolo, String data, int postiTotali) {
+    public Evento(String titolo, String data, int postiTotali, int postiPrenotati) {
         this.titolo = titolo;
         this.data = data;
         this.postiTotali = postiTotali;
+        this.postiPrenotati = postiPrenotati;
     }
     
     // Getter
@@ -41,9 +43,19 @@ public class Evento {
         this.postiTotali = postiTotali;
     }
     
+    // Getter per posti prenotati
+    public int getPostiPrenotati() {
+        return postiPrenotati;
+    }
+    
+    // Setter per posti prenotati
+    public void setPostiPrenotati(int postiPrenotati) {
+        this.postiPrenotati = postiPrenotati;
+    }
+    
     // Metodo toString per visualizzare l'evento
     @Override
     public String toString() {
-        return "Evento: " + titolo + " - Data: " + data + " - Posti totali: " + postiTotali;
+        return "Evento: " + titolo + " - Data: " + data + " - Posti totali: " + postiTotali + " - Posti prenotati: " + postiPrenotati;
     }
 }
