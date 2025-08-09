@@ -17,15 +17,7 @@ public class Evento {
         }
         
         // Validazione data
-        try {
-            LocalDate dataEvento = LocalDate.parse(data, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-            LocalDate oggi = LocalDate.now();
-            if (dataEvento.isBefore(oggi)) {
-                throw new IllegalArgumentException("La data dell'evento non può essere nel passato");
-            }
-        } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException("Formato data non valido. Utilizzare il formato yyyy-MM-dd");
-        }
+        validaData(data);
         
         this.titolo = titolo;
         this.data = data;
@@ -51,15 +43,7 @@ public class Evento {
     // Setter per data
     public void setData(String data) {
         // Validazione data
-        try {
-            LocalDate dataEvento = LocalDate.parse(data, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-            LocalDate oggi = LocalDate.now();
-            if (dataEvento.isBefore(oggi)) {
-                throw new IllegalArgumentException("La data dell'evento non può essere nel passato");
-            }
-        } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException("Formato data non valido. Utilizzare il formato yyyy-MM-dd");
-        }
+        validaData(data);
         
         this.data = data;
     }
@@ -74,14 +58,30 @@ public class Evento {
         return postiPrenotati;
     }
     
-    // Metodo per prenotare un posto
-    public void prenota() {
-        // Verifica se l'evento è già passato
+    // Metodi helper privati
+    private void validaData(String data) {
+        try {
+            LocalDate dataEvento = LocalDate.parse(data, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            LocalDate oggi = LocalDate.now();
+            if (dataEvento.isBefore(oggi)) {
+                throw new IllegalArgumentException("La data dell'evento non può essere nel passato");
+            }
+        } catch (DateTimeParseException e) {
+            throw new IllegalArgumentException("Formato data non valido. Utilizzare il formato yyyy-MM-dd");
+        }
+    }
+    
+    private void validaEventoNonPassato() {
         LocalDate dataEvento = LocalDate.parse(data, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         LocalDate oggi = LocalDate.now();
         if (dataEvento.isBefore(oggi)) {
-            throw new IllegalArgumentException("Non è possibile prenotare per un evento già passato");
+            throw new IllegalArgumentException("Non è possibile modificare prenotazioni per un evento già passato");
         }
+    }
+    
+    // Metodo per prenotare un posto
+    public void prenota() {
+        validaEventoNonPassato();
         
         // Verifica se ci sono posti disponibili
         if (postiPrenotati >= postiTotali) {
@@ -92,9 +92,22 @@ public class Evento {
         postiPrenotati++;
     }
     
+    // Metodo per disdire una prenotazione
+    public void disdici() {
+        validaEventoNonPassato();
+        
+        // Verifica se ci sono prenotazioni da disdire
+        if (postiPrenotati <= 0) {
+            throw new IllegalArgumentException("Non ci sono prenotazioni da disdire");
+        }
+        
+        // Decrementa i posti prenotati
+        postiPrenotati--;
+    }
+    
     // Metodo toString per visualizzare l'evento
     @Override
     public String toString() {
-        return "Evento: " + titolo + " - Data: " + data + " - Posti totali: " + postiTotali + " - Posti prenotati: " + postiPrenotati;
+        return data + " - " + titolo;
     }
 }

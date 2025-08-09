@@ -119,5 +119,42 @@ public class Main {
          } catch (IllegalArgumentException e) {
              System.err.println("Errore nei test prenota: " + e.getMessage());
          }
+         
+         // Test validazioni metodo disdici
+         System.out.println("\n--- Test validazioni disdici ---");
+         try {
+             Evento eventoTest = new Evento("Evento Test Disdici", "2025-12-31", 5);
+             System.out.println("Evento creato: " + eventoTest);
+             
+             // Prima facciamo alcune prenotazioni
+             eventoTest.prenota();
+             eventoTest.prenota();
+             eventoTest.prenota();
+             System.out.println("Dopo 3 prenotazioni: " + eventoTest);
+             
+             // Test disdetta normale
+             eventoTest.disdici();
+             System.out.println("Dopo prima disdetta: " + eventoTest);
+             
+             eventoTest.disdici();
+             System.out.println("Dopo seconda disdetta: " + eventoTest);
+             
+             eventoTest.disdici();
+             System.out.println("Dopo terza disdetta: " + eventoTest);
+             
+             // Test disdetta quando non ci sono prenotazioni
+             try {
+                 eventoTest.disdici();
+             } catch (IllegalArgumentException e) {
+                 System.out.println("Errore nessuna prenotazione da disdire: " + e.getMessage());
+             }
+             
+             // Test disdetta per evento passato
+             // Non possiamo creare un evento passato, quindi testiamo il comportamento
+             System.out.println("Test disdetta evento passato: non testabile direttamente perché il costruttore impedisce la creazione di eventi passati");
+             
+         } catch (IllegalArgumentException e) {
+             System.err.println("Errore nei test disdici: " + e.getMessage());
+         }
      }
  }
